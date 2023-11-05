@@ -1,0 +1,12 @@
+# Git
+.gitignore
+.git
+
+# Tmp
+.DS_STORE
+
+# Docs
+*.md
+
+# Scripts
+*.sh
