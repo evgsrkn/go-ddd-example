@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/evgsrkn/go-ddd-example/gateway/internal/config"
-
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -15,7 +13,7 @@ type fileSyncer struct {
 	fd *os.File
 }
 
-func New(appEnv config.AppEnv) *zap.Logger {
+func New(appEnv string) *zap.Logger {
 	core := newZapCore(appEnv)
 	return zap.New(core)
 }
@@ -42,7 +40,7 @@ func (fs *fileSyncer) Sync() error {
 	return fs.fd.Close()
 }
 
-func newZapCore(appEnv config.AppEnv) zapcore.Core {
+func newZapCore(appEnv string) zapcore.Core {
 	if err := os.MkdirAll("./tmp", 0775); err != nil {
 		panic(err.Error())
 	}
@@ -50,7 +48,7 @@ func newZapCore(appEnv config.AppEnv) zapcore.Core {
 	consoleDebugging := zapcore.Lock(os.Stdout)
 	consoleErrors := zapcore.Lock(os.Stderr)
 
-	errLogPath := fmt.Sprintf("./tmp/%v.log", appEnv.String())
+	errLogPath := fmt.Sprintf("./tmp/%v.log", appEnv)
 	fsErrors := zapcore.Lock(mustNewFileSyncer(errLogPath))
 
 	consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
