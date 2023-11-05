@@ -1,0 +1,43 @@
+syntax = "proto3";
+package user;
+
+option go_package = "./pkg/pb";
+
+service UserService {
+    rpc CreateUser(CreateUserRequest) returns (Empty);
+    rpc ActivateUser(UpdateUserRequest) returns (Empty);
+    rpc DeactivateUser(UpdateUserRequest) returns (Empty);
+    rpc MakeUserAdmin(UpdateUserRequest) returns (Empty);
+
+    rpc GetUserById(GetUserByIdRequest) returns (User);
+    rpc GetAllUsers(Empty) returns (Users);
+}
+
+message Empty{}
+
+message UpdateUserRequest {
+    string id = 1;
+}
+
+message CreateUserRequest {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+    string password_hash = 4;
+    string role = 5;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+    string role = 4;
+}
+
+message Users {
+    repeated User users = 1;
+}
+
+message GetUserByIdRequest {
+    string id = 1;
+}
