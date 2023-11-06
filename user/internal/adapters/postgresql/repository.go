@@ -57,7 +57,8 @@ func (r PostgresqlRepository) AllUsers(ctx context.Context) ([]*query.User, erro
 func (r PostgresqlRepository) CreateUser(ctx context.Context, user *domain.User) error {
 	_, err := r.db.Exec(
 		ctx,
-		"INSERT INTO users(id, username, email, passwordHash, active, role) values($1, $2, $3, $4, $5, $6)",
+		"INSERT INTO users(id, username, email, password_hash, active, role) values($1, $2, $3, $4, $5, $6)",
+		user.Id(), user.Username(), user.Email(), user.PasswordHash(), user.IsActive(), user.Role().String(),
 	)
 	if err != nil {
 		return errors.Wrap(err, "unable to insert into table")
@@ -97,7 +98,7 @@ func (r PostgresqlRepository) UpdateUser(
 	if _, err := tx.Exec(
 		ctx,
 		`UPDATE users
-        SET username=$2, email=$3, passwordHash=$4, active=$5, role=$6
+        SET username=$2, email=$3, password_hash=$4, active=$5, role=$6
         WHERE id=$1`,
 		id,
 		updatedUser.Username(),

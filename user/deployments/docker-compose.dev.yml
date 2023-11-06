@@ -1,19 +1,4 @@
 services:
-  user:
-    container_name: ddd-user
-    build: ../
-    restart: on-failure
-    environment:
-      - APP_ENV=dev
-    ports:
-      - 8081:8081
-    depends_on:
-      - db
-    networks:
-      go-ddd-example:
-    volumes:
-      - ./../tmp:/app/tmp
-
   db:
     image: postgres:16-alpine
     container_name: ddd-user_db
@@ -28,11 +13,6 @@ services:
       - 5435:5432
     volumes:
       - ddd-user_db_volume:/var/lib/postgresql/data
-    networks:
-      go-ddd-example:
-
-networks:
-  go-ddd-example:
 
 volumes:
   ddd-user_db_volume:
