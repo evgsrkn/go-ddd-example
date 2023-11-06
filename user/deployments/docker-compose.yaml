@@ -18,6 +18,8 @@ services:
     image: postgres:16-alpine
     container_name: ddd-user_db
     restart: on-failure
+    env_file:
+        - ./../config/dev.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}

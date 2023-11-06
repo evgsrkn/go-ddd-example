@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/evgsrkn/go-ddd-example/user/internal/domain"
+	"github.com/pkg/errors"
 )
 
 type CreateUser struct {
@@ -27,12 +28,17 @@ func NewCreateUserHandler(repo domain.WriteRepository) CreateUserHandler {
 }
 
 func (h createUserHandler) Handle(ctx context.Context, cmd CreateUser) (err error) {
+	role, err := domain.RoleFromString(cmd.Role)
+	if err != nil {
+		return errors.Wrap(err, "cannot create user")
+	}
+
 	user, err := domain.NewUser(
 		cmd.Id,
 		cmd.Email,
 		cmd.Username,
 		cmd.PasswordHash,
-		cmd.Role,
+		role,
 	)
 	if err != nil {
 		return err

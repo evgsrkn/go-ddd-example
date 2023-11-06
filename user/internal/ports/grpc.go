@@ -79,7 +79,7 @@ func (g GrpcUserServer) GetUserById(ctx context.Context, request *pb.GetUserById
 		Id:       user.Id,
 		Username: user.Username,
 		Email:    user.Email,
-		Role:     user.Role,
+		Role:     user.Role.String(),
 	}, nil
 }
 
@@ -95,7 +95,7 @@ func (g GrpcUserServer) GetAllUsers(ctx context.Context, _ *pb.Empty) (*pb.Users
 			Id:       user.Id,
 			Username: user.Username,
 			Email:    user.Email,
-			Role:     user.Role,
+			Role:     user.Role.String(),
 		})
 	}
 

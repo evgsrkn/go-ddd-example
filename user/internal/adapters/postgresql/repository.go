@@ -54,7 +54,7 @@ func (r PostgresqlRepository) AllUsers(ctx context.Context) ([]*query.User, erro
 	return users, nil
 }
 
-func (r PostgresqlRepository) CreateUser(ctx context.Context, user domain.User) error {
+func (r PostgresqlRepository) CreateUser(ctx context.Context, user *domain.User) error {
 	_, err := r.db.Exec(
 		ctx,
 		"INSERT INTO users(id, username, email, passwordHash, active, role) values($1, $2, $3, $4, $5, $6)",
@@ -126,13 +126,18 @@ func (r PostgresqlRepository) rowToUserDomain(row pgx.Row) (*domain.User, error)
 		return nil, errors.Wrap(err, "unable to scan db row")
 	}
 
+	role, err := domain.RoleFromString(user.role)
+	if err != nil {
+		return nil, errors.Wrap(err, "cannot unmarshal user from database")
+	}
+
 	return domain.UnmarshalUserFromDatabase(
 		user.id,
 		user.email,
 		user.username,
 		user.passwordHash,
 		user.active,
-		user.role,
+		role,
 	)
 }
 

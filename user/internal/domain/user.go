@@ -18,30 +18,29 @@ func NewUser(
 	email string,
 	username string,
 	passwordHash string,
-	roleStr string,
-) (User, error) {
+	role Role,
+) (*User, error) {
 	if id == "" {
-		return User{}, errors.New("user id is empty")
+		return &User{}, errors.New("user id is empty")
 	}
 
 	if email == "" {
-		return User{}, errors.New("user email is empty")
+		return &User{}, errors.New("user email is empty")
+	}
+
+	if username == "" {
+		return &User{}, errors.New("user email is empty")
 	}
 
 	if passwordHash == "" {
-		return User{}, errors.New("user password is empty")
-	}
-
-	role, err := NewRole(roleStr)
-	if err != nil {
-		return User{}, err
+		return &User{}, errors.New("user password is empty")
 	}
 
 	if role.IsZero() {
-		return User{}, errors.New("user role is empty")
+		return &User{}, errors.New("user role is empty")
 	}
 
-	return User{
+	return &User{
 		id:           id,
 		email:        email,
 		username:     username,
@@ -57,16 +56,16 @@ func UnmarshalUserFromDatabase(
 	username string,
 	passwordHash string,
 	active bool,
-	roleStr string,
+	role Role,
 ) (*User, error) {
-	user, err := NewUser(id, email, username, passwordHash, roleStr)
+	user, err := NewUser(id, email, username, passwordHash, role)
 	if err != nil {
 		return &User{}, errors.Wrap(err, "cannot unmarshal user from database")
 	}
 
 	user.active = active
 
-	return &user, nil
+	return user, nil
 }
 
 func (u *User) Id() string {
@@ -81,8 +80,8 @@ func (u *User) Username() string {
 	return u.username
 }
 
-func (u *User) Role() string {
-	return u.role.String()
+func (u *User) Role() Role {
+	return u.role
 }
 
 func (u *User) IsActive() bool {

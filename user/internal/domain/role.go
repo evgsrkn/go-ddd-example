@@ -7,7 +7,7 @@ var (
 	UserRole  = Role{"user"}
 )
 
-var userRoles = []Role{
+var UserRoles = []Role{
 	AdminRole,
 	UserRole,
 }
@@ -16,8 +16,8 @@ type Role struct {
 	a string
 }
 
-func NewRole(role string) (Role, error) {
-	for _, r := range userRoles {
+func RoleFromString(role string) (Role, error) {
+	for _, r := range UserRoles {
 		if role == r.String() {
 			return r, nil
 		}

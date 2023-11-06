@@ -10,7 +10,7 @@ type ViewRepository interface {
 }
 
 type WriteRepository interface {
-	CreateUser(ctx context.Context, user User) error
+	CreateUser(ctx context.Context, user *User) error
 	UpdateUser(
 		ctx context.Context,
 		id string,
