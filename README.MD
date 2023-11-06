@@ -19,7 +19,7 @@ and extend this project.
 - [x] Implement ports layer
 - [x] Implement adapters layer
 - [x] Add db migrations and db schema
-- [ ] Test domain layer
+- [x] Test domain layer
 - [ ] Test app layer
 - [ ] Test ports layer
 - [ ] Test adapters layer
