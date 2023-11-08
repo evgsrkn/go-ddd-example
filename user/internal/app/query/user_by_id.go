@@ -11,12 +11,12 @@ type UserById struct {
 type UserByIdHandler QueryHandler[UserById, *User]
 
 type userByIdHandler struct {
-	readModel UserByIdReadModel
+	repo ReadRepository
 }
 
-func NewUserByIdHandler(readModel UserByIdReadModel) UserByIdHandler {
+func NewUserByIdHandler(repo ReadRepository) UserByIdHandler {
 	return userByIdHandler{
-		readModel: readModel,
+		repo: repo,
 	}
 }
 
@@ -25,5 +25,5 @@ type UserByIdReadModel interface {
 }
 
 func (h userByIdHandler) Handle(ctx context.Context, qry UserById) (*User, error) {
-	return h.readModel.UserById(ctx, qry.Id)
+	return h.repo.UserById(ctx, qry.Id)
 }

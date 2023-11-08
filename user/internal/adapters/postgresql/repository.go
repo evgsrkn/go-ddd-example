@@ -32,8 +32,12 @@ func NewPostgresqlRepository(db *pgxpool.Pool) PostgresqlRepository {
 
 func (r PostgresqlRepository) UserById(ctx context.Context, id string) (*query.User, error) {
 	row := r.db.QueryRow(ctx, "SELECT * FROM users WHERE id=$1", id)
+	usr, err := r.rowToUserQueryModel(row)
+	if err != nil {
+		return nil, errors.Errorf("user with id '%s' not found", id)
+	}
 
-	return r.rowToUserQueryModel(row)
+	return usr, nil
 }
 
 func (r PostgresqlRepository) AllUsers(ctx context.Context) ([]*query.User, error) {
@@ -155,7 +159,7 @@ func (r PostgresqlRepository) rowToUserQueryModel(row pgx.Row) (*query.User, err
 	)
 
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to scan db row")
+		return nil, errors.Wrap(err, "cannot scan row")
 	}
 
 	return &user, nil
