@@ -18,7 +18,11 @@ and extend this project.
 - [x] Implement app layer
 - [x] Implement ports layer
 - [x] Implement adapters layer
-- [ ] Add db migrations and db schema
+- [x] Add db migrations and db schema
+- [x] Test domain layer
+- [ ] Test app layer
+- [ ] Test ports layer
+- [ ] Test adapters layer
 
 ### Project service
 - [ ] Implement domain layer
