@@ -1,6 +1,6 @@
 CREATE TYPE user_role AS ENUM ('admin', 'user');
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id uuid primary key,
     email varchar(50) NOT NULL,
     username varchar(50) NOT NULL,
