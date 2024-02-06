@@ -26,7 +26,7 @@ and extend this project.
 
 ### Project service
 - [ ] Implement domain layer
-- [ ] Implement app layer
+- [x] Implement app layer
 - [ ] Implement ports layer
 - [ ] Implement adapters layer
 
